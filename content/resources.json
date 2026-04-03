@@ -1,0 +1,220 @@
+{
+  "resources": [
+    {
+      "id": "fuel",
+      "name": "Fuel",
+      "description": "Propellant for main engines and maneuvering thrusters. Critical for velocity control and landing maneuvers.",
+      "unit": "kg",
+      "baseValue": 1.0,
+      "consumptionRatePerDay": {
+        "crew": 25,
+        "passenger": 8
+      },
+      "effects": {
+        "low_threshold": 30,
+        "critical_threshold": 15,
+        "impact_on_voyage": {
+          "reduced_speed": true,
+          "landing_margin_reduced": true,
+          "emergency_maneuver_impossible": false
+        }
+      },
+      "tradeoff_implications": {
+        "more_fuel": {
+          "benefits": ["Better burn flexibility", "Emergency margin for system failures", "Improved landing safety"],
+          "costs": ["Heavier ship reduces cargo capacity", "Less room for specialized systems"]
+        }
+      },
+      "visualFeedback": {
+        "color_normal": "#2ecc71",
+        "color_caution": "#f39c12",
+        "color_critical": "#e74c3c",
+        "icon": "fuel-drum"
+      }
+    },
+    {
+      "id": "food",
+      "name": "Food Supply",
+      "description": "Nutritionally complete food supplies for crew and passengers. Determines voyage endurance.",
+      "unit": "days supply",
+      "baseValue": 1.0,
+      "consumptionRatePerDay": {
+        "crew": 0.8,
+        "passenger": 0.6
+      },
+      "effects": {
+        "low_threshold": 45,
+        "critical_threshold": 20,
+        "impact_on_voyage": {
+          "morale_impact": true,
+          "productivity_reduction": true,
+          "health_degradation": false
+        }
+      },
+      "tradeoff_implications": {
+        "more_food": {
+          "benefits": ["Safer voyage", "Better crew performance", "Stronger opening colony buffer"],
+          "costs": ["Less room for specialized systems", "Reduced agility"]
+        }
+      },
+      "visualFeedback": {
+        "color_normal": "#2ecc71",
+        "color_caution": "#f39c12",
+        "color_critical": "#e74c3c",
+        "icon": "ration-pack"
+      }
+    },
+    {
+      "id": "water",
+      "name": "Water Reserve",
+      "description": "Potable water for drinking, hygiene, and hydroponics. Recycled but requires replenishment.",
+      "unit": "liters",
+      "baseValue": 1.0,
+      "consumptionRatePerDay": {
+        "crew": 3.5,
+        "passenger": 3.0
+      },
+      "effects": {
+        "low_threshold": 600,
+        "critical_threshold": 300,
+        "impact_on_voyage": {
+          "health_impact": true,
+          "hydroponics_affected": true,
+          "comfort_reduction": false
+        }
+      },
+      "tradeoff_implications": {
+        "more_water": {
+          "benefits": ["Crew health maintenance", "Hydroponic garden support", "Emergency reserve"],
+          "costs": ["Weight penalty", "Space allocation"]
+        }
+      },
+      "visualFeedback": {
+        "color_normal": "#3d8eff",
+        "color_caution": "#f39c12",
+        "color_critical": "#e74c3c",
+        "icon": "water-tank"
+      }
+    },
+    {
+      "id": "medical",
+      "name": "Medical Supplies",
+      "description": "Comprehensive medical kits, pharmaceuticals, and emergency trauma equipment.",
+      "unit": "units",
+      "baseValue": 1.0,
+      "consumptionRatePerDay": {
+        "crew": 0.02,
+        "passenger": 0.01
+      },
+      "effects": {
+        "low_threshold": 40,
+        "critical_threshold": 20,
+        "impact_on_voyage": {
+          "health_care_reduced": true,
+          "emergency_response_impaired": false
+        }
+      },
+      "tradeoff_implications": {
+        "more_medical": {
+          "benefits": ["Crew health security", "Emergency readiness", "Long-term colony medical foundation"],
+          "costs": ["Space and weight allocation"]
+        }
+      },
+      "visualFeedback": {
+        "color_normal": "#2ecc71",
+        "color_caution": "#f39c12",
+        "color_critical": "#e74c3c",
+        "icon": "medkit"
+      }
+    },
+    {
+      "id": "spare_parts",
+      "name": "Spare Parts",
+      "description": "Critical component replacements for ship systems. Determines repair capacity during crisis.",
+      "unit": "units",
+      "baseValue": 1.0,
+      "consumptionRatePerDay": {
+        "crew": 0.05,
+        "passenger": 0.02
+      },
+      "effects": {
+        "low_threshold": 30,
+        "critical_threshold": 15,
+        "impact_on_voyage": {
+          "repair_capacity_reduced": true,
+          "system_failures_more_severe": false
+        }
+      },
+      "tradeoff_implications": {
+        "more_spare_parts": {
+          "benefits": ["System reliability", "Emergency repairs", "Extended mission capability"],
+          "costs": ["Mass penalty", "Cargo space allocation"]
+        }
+      },
+      "visualFeedback": {
+        "color_normal": "#3d8eff",
+        "color_caution": "#f39c12",
+        "color_critical": "#e74c3c",
+        "icon": "component-box"
+      }
+    },
+    {
+      "id": "security_gear",
+      "name": "Security Hardware",
+      "description": "Countermeasures, surveillance equipment, and defensive systems for threat deterrence.",
+      "unit": "units",
+      "baseValue": 1.0,
+      "consumptionRatePerDay": {
+        "crew": 0.15,
+        "passenger": 0.08
+      },
+      "effects": {
+        "low_threshold": 20,
+        "critical_threshold": 10,
+        "impact_on_voyage": {
+          "threat_response_impaired": true,
+          "morale_impact_negative": false
+        }
+      },
+      "tradeoff_implications": {
+        "more_security": {
+          "benefits": ["Deterrence capability", "Crisis options", "Rival response capacity"],
+          "costs": ["Political blowback risk", "Morale tension increase", "Mass penalty"]
+        }
+      },
+      "visualFeedback": {
+        "color_normal": "#3d8eff",
+        "color_caution": "#f39c12",
+        "color_critical": "#e74c3c",
+        "icon": "security-shield"
+      }
+    },
+    {
+      "id": "colony_gear",
+      "name": "Colony Establishment Equipment",
+      "description": "Specialized hardware for Mars base construction and initial operations.",
+      "unit": "units",
+      "baseValue": 1.0,
+      "consumptionRatePerDay": 0,
+      "effects": {
+        "low_threshold": 30,
+        "critical_threshold": 15,
+        "impact_on_voyage": {
+          "colony_setup_delayed": true
+        }
+      },
+      "tradeoff_implications": {
+        "more_colony_gear": {
+          "benefits": ["Stronger base establishment", "Initial operations capability", "Scientific potential"],
+          "costs": ["Voyage mass allocation", "Space constraints"]
+        }
+      },
+      "visualFeedback": {
+        "color_normal": "#2ecc71",
+        "color_caution": "#f39c12",
+        "color_critical": "#e74c3c",
+        "icon": "colony-module"
+      }
+    }
+  ]
+}
