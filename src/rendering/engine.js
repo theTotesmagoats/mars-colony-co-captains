@@ -22,9 +22,11 @@ export class RenderingEngine {
         this.state = {
             stars: [],
             shipSilhouette: null,
-           窗外View: null,
+            windowView: null,
             alertLevel: 'normal',
-            lighting: { ambient: 0.8, accent: 0.2 }
+            lighting: { ambient: 0.8, accent: 0.2 },
+            starfieldSpeed: 0, // Now driven by simulation state
+            velocity: 0 // From voyage state
         };
         
         // Particle system
@@ -49,9 +51,8 @@ export class RenderingEngine {
         // Initialize starscape
         this._generateStarscape(500);
         
-        // Start animation loop
-        this.animationLoop = this.animationLoop.bind(this);
-        requestAnimationFrame(this.animationLoop);
+        // Start animation loop - now driven by game loop in main.js
+        console.log('Rendering engine initialized');
     }
     
     resize() {
@@ -59,10 +60,13 @@ export class RenderingEngine {
         this.width = rect.width;
         this.height = rect.height;
         
-        // Handle high-DPI displays (iPad Retina)
+        // Handle high-DPI displays (iPad Retina) - FIXED: Reset transform first
         const dpr = window.devicePixelRatio || 1;
         this.canvas.width = this.width * dpr;
         this.canvas.height = this.height * dpr;
+        
+        // Reset transform to avoid compounding scaling
+        this.ctx.setTransform(1, 0, 0, 1, 0, 0);
         this.ctx.scale(dpr, dpr);
     }
     
@@ -98,6 +102,14 @@ export class RenderingEngine {
         // Extract relevant state for visuals
         const voyageState = gameState.voyage;
         const shipState = gameState.ship;
+        
+        // Update velocity from unified voyage state
+        this.state.velocity = voyageState.cruiseSpeed || 0.04;
+        
+        // Calculate starfield speed based on actual travel speed (FIXED: now uses simulation data)
+        // At cruise speed (0.04 AU/day), stars should drift slowly
+        // At higher speeds, stars should streak more
+        this.state.starfieldSpeed = Math.min(1, this.state.velocity * 25); // Scale to reasonable animation range
         
         // Update alert level
         if (gameState.debug.paused) {
@@ -150,28 +162,22 @@ export class RenderingEngine {
         }
     }
     
-    // Animation loop
-    animationLoop(timestamp) {
-        const deltaTime = (timestamp - this.lastTime) / 1000;
-        this.lastTime = timestamp;
-        
+    // Update loop - called by game loop in main.js
+    update(deltaTime) {
         if (!this.state.paused) {
-            this.update(deltaTime);
-            this.draw();
+            this._updateInternal(deltaTime);
         }
-        
-        requestAnimationFrame(this.animationLoop);
     }
     
-    update(deltaTime) {
-        // Update starfield parallax
-        const shipSpeed = Math.min(1, (this.width / 2000)); // Visual speed based on screen size
+    _updateInternal(deltaTime) {
+        // Update starfield parallax with actual speed from simulation (FIXED)
+        const shipSpeed = Math.min(1, this.state.starfieldSpeed); // Use unified speed
         
         for (const star of this.state.stars) {
-            // Move stars based on layer and time
+            // Move stars based on layer and time using actual velocity
             if (star.layer !== 'far') {
                 const speedAdjustment = star.layer === 'near' ? shipSpeed * 3 : shipSpeed * 1.5;
-                star.x -= speedAdjustment * deltaTime * 60;
+                star.x -= speedAdjustment * deltaTime * 60; // Normalize animation speed
                 
                 // Reset to other side when off screen
                 if (star.x < -20) {
