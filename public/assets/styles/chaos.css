@@ -1,0 +1,334 @@
+/* 
+ * Chaos Ship Styles - Dark Aesthetic for Mars Colony Co-Captains
+ * Matte black hull, low-light bridge, red/violet interface accents
+ */
+
+/* Chaos Theme Variables */
+:root {
+    --chaos-primary: #e74c3c;
+    --chaos-accent: #ff6e58;
+    --chaos-dark: #0a0b14;
+    --chaos-darker: #05060a;
+    --chaos-light: #2d3436;
+}
+
+/* Chaos-specific UI Elements */
+.chaos-planning-workspace,
+.chaos-ship-card,
+.chaos-launch-btn {
+    border-color: var(--chaos-primary);
+    background-image: linear-gradient(135deg, var(--chaos-darker) 0%, #1a0f0f 100%);
+}
+
+.chaos-planning-subtitle,
+.chaos-station-display h4 {
+    color: var(--chaos-accent);
+}
+
+/* AI Interface Styles */
+.ai-core-interface {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(10, 10, 14, 0.95);
+    border: 2px solid var(--chaos-primary);
+    border-radius: 12px;
+    padding: 20px;
+    min-width: 300px;
+    text-align: center;
+}
+
+.ai-name {
+    font-size: 1.8rem;
+    color: var(--chaos-accent);
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.ai-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.status-indicator.active {
+    width: 12px;
+    height: 12px;
+    background-color: var(--chaos-primary);
+    border-radius: 50%;
+    animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-red {
+    0% { box-shadow: inset 0 0 0 0 rgba(231, 76, 60, 0); }
+    70% { box-shadow: inset 0 0 0 8px rgba(231, 76, 60, 0.4); }
+    100% { box-shadow: inset 0 0 0 0 rgba(231, 76, 60, 0); }
+}
+
+.ai-personality-bar {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+    justify-content: center;
+}
+
+.personality-trait {
+    font-size: 0.8rem;
+    padding: 4px 12px;
+    background: rgba(231, 76, 60, 0.2);
+    border-radius: 20px;
+    color: var(--chaos-accent);
+}
+
+.ai-comment-display {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 350px;
+    min-height: 100px;
+    background: rgba(10, 10, 14, 0.9);
+    border-left: 4px solid var(--chaos-primary);
+    padding: 15px;
+}
+
+.ai-comment-display .initial-comment,
+.ai-comment-display .comment {
+    font-style: italic;
+    color: #dcdde1;
+    line-height: 1.5;
+    transition: opacity 0.3s ease;
+}
+
+.ai-response-panel {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.ai-btn {
+    padding: 10px 15px;
+    background: rgba(231, 76, 60, 0.3);
+    border: 1px solid var(--chaos-primary);
+    color: var(--chaos-accent);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.ai-btn:hover {
+    background: rgba(231, 76, 60, 0.5);
+    transform: translateY(-2px);
+}
+
+/* Stealth Glass Overlay */
+.stealth-glass-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background-image: 
+        linear-gradient(rgba(231, 76, 60, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(231, 76, 60, 0.05) 1px, transparent 1px);
+    background-size: 4px 4px;
+    opacity: 0.8;
+}
+
+.glass-text {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--chaos-primary);
+    letter-spacing: 3px;
+    background: rgba(10, 10, 14, 0.85);
+    padding: 5px 12px;
+    border-radius: 4px;
+}
+
+/* Chaos Bridge Lighting */
+.chaos-bridge {
+    --lighting-level: 0.6; /* Dimmer than standard bridge */
+    --accent-lighting: 0.4;
+}
+
+.chaos-bridge .status-bar,
+.chaos-bridge .console-overlay {
+    background: rgba(5, 6, 10, 0.98);
+}
+
+.chaos-bridge .station-btn.active {
+    color: var(--chaos-accent);
+    border-top-color: var(--chaos-primary);
+    background: rgba(231, 76, 60, 0.15);
+}
+
+/* AI Presence Indicator */
+.ai-presence-indicator {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(10, 10, 14, 0.9);
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--chaos-primary);
+}
+
+.ai-status-bubble {
+    width: 10px;
+    height: 10px;
+    background-color: var(--chaos-accent);
+    border-radius: 50%;
+}
+
+/* Chaos-specific Stations */
+.chaos-station-display {
+    position: absolute;
+    padding: 20px;
+    min-width: 200px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chaos-station-display:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(231, 76, 60, 0.3);
+}
+
+.chaos-station-display .station-icon {
+    font-size: 3rem;
+    color: var(--chaos-accent);
+    margin-bottom: 10px;
+}
+
+/* Loadout Summary for Chaos */
+.loadout-summary ul.chaos-loadout-list li {
+    border-bottom-color: rgba(231, 76, 60, 0.2);
+}
+
+.loadout-summary ul.chaos-loadout-list strong {
+    color: var(--chaos-primary);
+}
+
+/* Campaign Selection Cards */
+.campaign-grid .campaign-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(231, 76, 60, 0.2);
+}
+
+.campaign-grid .campaign-card.selected {
+    background: rgba(231, 76, 60, 0.1);
+    border-color: var(--chaos-primary);
+    box-shadow: 0 0 20px rgba(231, 76, 60, 0.2);
+}
+
+.campaign-grid .select-campaign-btn {
+    background: rgba(231, 76, 60, 0.3);
+    border-color: var(--chaos-primary);
+    color: var(--chaos-accent);
+}
+
+/* AI Personality Display */
+.ai-personality-display .ai-card {
+    background: linear-gradient(135deg, #0f0f1a 0%, #1a0f0f 100%);
+    border: 2px solid rgba(231, 76, 60, 0.3);
+}
+
+.ai-personality-display .ai-card h4 {
+    color: var(--chaos-accent);
+}
+
+.ai-traits {
+    display: flex;
+    gap: 8px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+}
+
+.trait {
+    font-size: 0.75rem;
+    padding: 6px 14px;
+    background: rgba(231, 76, 60, 0.2);
+    border-radius: 20px;
+    color: var(--chaos-accent);
+}
+
+.ai-capabilities li {
+    margin-bottom: 8px;
+}
+
+.ai-warning {
+    font-style: italic;
+    color: #dcdde1;
+    margin-top: 20px;
+    padding-left: 15px;
+    border-left: 3px solid var(--chaos-primary);
+}
+
+/* Chaos-specific Button Styles */
+.chaos-launch-btn {
+    background: linear-gradient(45deg, rgba(231, 76, 60, 0.4) 0%, rgba(255, 110, 88, 0.2) 100%);
+    border-color: var(--chaos-primary);
+}
+
+.chaos-launch-btn:hover {
+    box-shadow: 0 0 30px rgba(231, 76, 60, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Status Grid for Chaos */
+.status-grid .status-item span.value {
+    color: var(--chaos-accent);
+}
+
+/* Resource Sliders for Chaos */
+.resource-slider-input[type="range"]::-webkit-slider-thumb {
+    background-color: var(--chaos-primary);
+}
+
+/* AI BRIEFING PANEL */
+.ai-briefing-panel {
+    margin-top: 20px;
+    padding: 20px;
+    background: linear-gradient(135deg, #1a0f0f 0%, #0a0b14 100%);
+    border-left: 4px solid var(--chaos-primary);
+}
+
+.ai-briefing-panel h3 {
+    color: var(--chaos-accent);
+    margin-bottom: 15px;
+}
+
+.ai-promise strong {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--chaos-accent);
+}
+
+/* Responsive adjustments for Chaos theme */
+@media (max-width: 768px) {
+    .ai-core-interface,
+    .ai-comment-display {
+        bottom: 5px;
+        left: 5px;
+        right: 5px;
+        width: auto;
+    }
+    
+    .ai-response-panel {
+        flex-direction: column;
+        bottom: 10px;
+        left: 10px;
+    }
+}
