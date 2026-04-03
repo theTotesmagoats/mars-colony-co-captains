@@ -18,7 +18,7 @@ export class BridgeScene {
         this.stations = new StationManager();
         this.spaceView = null;
         
-        // Camera/view state
+        // Camera/view state  
         this.camera = {
             currentStation: 'command',
             transitions: []
@@ -41,7 +41,7 @@ export class BridgeScene {
         // Initialize space view
         this.spaceView = new SpaceView(this.renderingEngine);
         
-        // Setup station navigation
+        // Setup station navigation  
         this._setupStationNavigation();
         
         // Load bridge UI
@@ -49,18 +49,6 @@ export class BridgeScene {
         
         // Start ambient animations
         this._startAmbientAnimations();
-        
-        // Subscribe to state changes
-        this.stateSubscription = () => {
-            const gameState = this.gameState.getSnapshot();
-            this.renderingEngine.updateState(gameState);
-            
-            // Update station displays based on new state
-            this.stations.updateDisplays(gameState);
-        };
-        
-        // Set initial visual state
-        this._setVisualState('normal');
         
         return true;
     }
@@ -75,6 +63,25 @@ export class BridgeScene {
         if (this.ambientAnimationId) {
             cancelAnimationFrame(this.ambientAnimationId);
             this.ambientAnimationId = null;
+        }
+    }
+    
+    update(deltaTime) {
+        // Update space view based on game state
+        if (this.spaceView && this.gameState) {
+            const gameStateSnapshot = this.gameState.getSnapshot();
+            this.spaceView.update(deltaTime, gameStateSnapshot);
+        }
+        
+        // Update rendering engine with current state
+        if (this.renderingEngine && this.gameState) {
+            const gameStateSnapshot = this.gameState.getSnapshot();
+            this.renderingEngine.updateState(gameStateSnapshot);
+        }
+        
+        // Update status bar through UI manager
+        if (this.uiManager) {
+            this.uiManager.update();
         }
     }
     
@@ -113,7 +120,7 @@ export class BridgeScene {
                 <canvas id="space-canvas" class="starscape"></canvas>
                 <div class="window-overlay">
                     <div class="hull-integrity">HULL INTEGRITY: 98%</div>
-                    <div class="velocity-readout">VELOCITY: 0.04 AU/DAY</div>
+                    <div class="velocity-readout">VELOCITY: ${this.gameState.getField('ship.stats.cruiseSpeed') || '0.04'} AU/DAY</div>
                     <div class="course-indicator">COURSE: PROGRADE</div>
                 </div>
             `;
@@ -274,7 +281,7 @@ export class BridgeScene {
         
         // Add event listeners for console buttons
         const consoleContent = document.getElementById('station-content');
-        consoleContent.innerHTML = stationContentMap[this.camera.currentStation];
+        consoleContent.innerHTML = stationContentMap[this.camera.currentStation] || '';
         
         const buttons = consoleContent.querySelectorAll('.action-btn');
         buttons.forEach(button => {
