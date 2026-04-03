@@ -49,6 +49,7 @@ export class GameStateManager {
             
             // Ship state (from prelaunch planning)
             ship: {
+                id: 'ares-heavy', // Now unified with selection
                 name: 'Ares-Class Heavy Lifter',
                 class: 'heavy-lifter',
                 capacity: {
@@ -68,20 +69,21 @@ export class GameStateManager {
                     shields: { status: 'optimal', integrity: 100, draw: 5 },
                     security: { status: 'normal', level: 2, tension: 0 }
                 },
+                // FIXED: Unified speed fields
                 stats: {
                     maxSpeed: 0.08, // AU/day
-                    cruiseSpeed: 0.04,
+                    cruiseSpeed: 0.04, // Now unified with voyage.cruiseSpeed
                     fuelEfficiency: 0.15, // % per day at cruise
                     wearRate: 0.02 // % per day at cruise
                 }
             },
             
-            // Voyage state
+            // Voyage state - FIXED: Unified speed field to match ship.stats.cruiseSpeed
             voyage: {
                 phase: 'preLaunch', // preLaunch, inTransit, approach
                 daysElapsed: 0,
                 distanceRemainingAU: 0.523, // Earth to Mars average
-                currentSpeed: 0,
+                cruiseSpeed: 0.04, // FIXED: Unified with ship.stats.cruiseSpeed
                 routeProfile: 'balanced', // fast, balanced, economical
                 
                 resources: {
@@ -184,23 +186,29 @@ export class GameStateManager {
     selectRoute(route) {
         this.state.voyage.routeProfile = route.id;
         
-        // Apply route effects
+        // FIXED: Unified speed assignment - now updates both fields for consistency
+        // Apply route effects to unified speed field
         switch(route.id) {
             case 'fast':
-                this.state.ship.stats.cruiseSpeed = 0.06;
+                this.state.ship.stats.cruiseSpeed = 0.06; // Also update voyage.cruiseSpeed below
+                this.state.voyage.cruiseSpeed = 0.06; // FIXED: Unified with ship stats
                 this.state.ship.stats.fuelEfficiency *= 1.35; // More fuel consumption
                 this.state.voyage.distanceRemainingAU -= 0.02; // Slightly shorter path
                 break;
             case 'balanced':
-                this.state.ship.stats.cruiseSpeed = 0.04;
+                this.state.ship.stats.cruiseSpeed = 0.04; // Also update voyage.cruiseSpeed below  
+                this.state.voyage.cruiseSpeed = 0.04; // FIXED: Unified with ship stats
                 this.state.ship.stats.fuelEfficiency *= 1.0;
                 break;
             case 'economical':
-                this.state.ship.stats.cruiseSpeed = 0.03;
+                this.state.ship.stats.cruiseSpeed = 0.03; // Also update voyage.cruiseSpeed below
+                this.state.voyage.cruiseSpeed = 0.03; // FIXED: Unified with ship stats
                 this.state.ship.stats.fuelEfficiency *= 0.85; // Less fuel consumption
                 this.state.voyage.distanceRemainingAU += 0.02; // Slightly longer path
                 break;
         }
+        
+        console.log('Route selected:', route.id, 'Speed set to:', this.state.voyage.cruiseSpeed);
     }
     
     // Voyage simulation methods
@@ -208,7 +216,7 @@ export class GameStateManager {
     advanceTime(days) {
         const voyage = this.state.voyage;
         
-        // Calculate resource consumption
+        // Calculate resource consumption using unified speed
         const dailyConsumption = {
             fuel: this.state.ship.stats.fuelEfficiency * (this.state.ship.currentLoad.passengers + 12), // Crew + passengers
             food: this.state.ship.currentLoad.passengers * 0.8,
@@ -227,12 +235,12 @@ export class GameStateManager {
             }
         }
         
-        // Calculate wear and damage
+        // Calculate wear and damage based on unified speed
         const dailyWear = this.state.ship.stats.wearRate * days;
         this._applySystemWear(dailyWear);
         
-        // Update voyage progress
-        const distanceTraveled = voyage.cruiseSpeed * days;
+        // Update voyage progress using unified cruiseSpeed
+        const distanceTraveled = voyage.cruiseSpeed * days; // FIXED: Now uses unified state field
         voyage.distanceRemainingAU -= distanceTraveled;
         voyage.daysElapsed += days;
         
@@ -282,6 +290,10 @@ export class GameStateManager {
         this.state.voyage.status.morale -= moraleImpact;
         
         // Log consequence
+        if (!this.state.consequences.impact) {
+            this.state.consequences.impact = [];
+        }
+        
         this.state.consequences.impact.push({
             type: 'resource_critical',
             resource,
@@ -367,6 +379,44 @@ export class GameStateManager {
     
     _isEventActive(eventId) {
         return this.state.events.active.some(e => e.id === eventId);
+    }
+    
+    // Chaos ship support methods
+    
+    initializeChaosCampaign(campaignType) {
+        if (!this.chaosState) {
+            console.warn('Chaos state system not loaded');
+            return false;
+        }
+        
+        this.chaosState.initializeChaosCampaign(campaignType);
+        
+        // Update ship configuration for Chaos
+        this.state.ship.id = 'chaos-stealth-raider';
+        this.state.ship.name = 'Chaos-class Stealth Raider';
+        
+        // Set up Chaos-specific resources and status
+        this.state.voyage.resources.fuel.current += 1500; // Bonus stolen fuel
+        this.state.voyage.status.legitimacy = this.chaosState.chaosState.legitimacy;
+        
+        // Initialize AI personality
+        this.state.aiPersonality = 'vex';
+        
+        return true;
+    }
+    
+    getChaosStatus() {
+        if (this.state.ship.id === 'chaos-stealth-raider' && this.chaosState) {
+            return this.chaosState.getStatusReport();
+        }
+        
+        return null;
+    }
+    
+    updateChaosState() {
+        if (this.chaosState) {
+            this.chaosState.updateChaosState();
+        }
     }
     
     // Debug utilities
