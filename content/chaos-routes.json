@@ -1,0 +1,166 @@
+{
+  "routes": [
+    {
+      "id": "chaos-stealth-rush",
+      "name": "Stealth Rush Route",
+      "description": "High-speed transit using stealth systems and evasive patterns. Arrive quickly but attract attention.",
+      "transitDays": 90,
+      "fuelCostFactor": 145,
+      "riskLevel": "high",
+      "chaosSpecificTraits": {
+        "stealth_required": true,
+        "evasion_maneuvers": true,
+        "interception_risk": "increased"
+      },
+      "effects": {
+        "arrival_position": "excellent",
+        "system_wear": "increased",
+        "morale_risk": "moderate",
+        "detection_chance": 25
+      },
+      "tradeoffs": {
+        "immediate_benefit": "Arrive ~30% sooner with stolen/scavenged resources, securing prime positions and political leverage",
+        "delayed_cost": "Higher detection risk; more system wear reduces stealth margin; crew fatigue increases vulnerability"
+      },
+      "visualHints": {
+        "starfield_speed": "very_high",
+        "engine_bloom": "minimal-stealth",
+        "alert_level": "caution",
+        "special_effects": ["stealth_mode", "evasion_patterns"]
+      }
+    },
+    {
+      "id": "chaos-shadow-route",
+      "name": "Shadow Route",
+      "description": "Low-signature transit through debris fields and radiation zones. Slower but harder to detect.",
+      "transitDays": 120,
+      "fuelCostFactor": 115,
+      "riskLevel": "medium-high",
+      "chaosSpecificTraits": {
+        "stealth_required": true,
+        "evasion_maneuvers": true,
+        "sensor_jamming_needed": true
+      },
+      "effects": {
+        "arrival_position": "good",
+        "system_wear": "moderate",
+        "morale_risk": "low",
+        "detection_chance": 10
+      },
+      "tradeoffs": {
+        "immediate_benefit": "Excellent stealth positioning; minimal detection risk; potential for intercepted intel during transit",
+        "delayed_cost": "Time delay allows Moon faction to consolidate position; increased system stress from constant jamming"
+      },
+      "visualHints": {
+        "starfield_speed": "moderate",
+        "engine_bloom": "stealth-dimmed",
+        "alert_level": "caution",
+        "special_effects": ["radar-dark", "debris-field-cover"]
+      }
+    },
+    {
+      "id": "chaos-opportunistic-loop",
+      "name": "Opportunistic Loop Route",
+      "description": "Extended route with multiple raid points and salvage stops. Maximizes resource acquisition.",
+      "transitDays": 150,
+      "fuelCostFactor": 120,
+      "riskLevel": "medium",
+      "chaosSpecificTraits": {
+        "salvage_opportunities": true,
+        "boarding_actions": true,
+        "raiding_capacity": true
+      },
+      "effects": {
+        "arrival_position": "average",
+        "system_wear": "moderate",
+        "morale_risk": "low",
+        "resource_gain": 40,
+        "detection_chance": 15
+      },
+      "tradeoffs": {
+        "immediate_benefit": "Maximum stolen/scavenged resources; strong starting position with black-market assets",
+        "delayed_cost": "Significant time delay; increased exposure to interception; reduced political legitimacy"
+      },
+      "visualHints": {
+        "starfield_speed": "variable",
+        "engine_bloom": "intermittent-stealth",
+        "alert_level": "caution",
+        "special_events": ["salvage_stop", "raid_opportunity", "decoy_deploy"]
+      }
+    },
+    {
+      "id": "chaos-pirate-ambush",
+      "name": "Pirate Ambush Course",
+      "description": "Aggressive route designed for intercepting weak targets and setting up ambushes.",
+      "transitDays": 105,
+      "fuelCostFactor": 138,
+      "riskLevel": "high-medium",
+      "chaosSpecificTraits": {
+        "interception_capacity": true,
+        "ambush_preparation": true,
+        "raiding_speed": true
+      },
+      "effects": {
+        "arrival_position": "fair",
+        "system_wear": "increased",
+        "morale_risk": "moderate",
+        "resource_gain": 25,
+        "detection_chance": 30
+      },
+      "tradeoffs": {
+        "immediate_benefit": "Direct acquisition of resources through raids; demonstration of capability to both factions",
+        "delayed_cost": "High detection risk makes landing more dangerous; political isolation increases";
+        "crew_tension": "elevated"
+      },
+      "visualHints": {
+        "starfield_speed": "high",
+        "engine_bloom": "aggressive-stealth",
+        "alert_level": "caution",
+        "special_events": ["intercept_opportunity", "ambush_setup", "raiding_force"]
+      }
+    }
+  ],
+  
+  "chaos_mission_types": [
+    {
+      "id": "black-market-access",
+      "name": "Black Market Access Route",
+      "description": "Focus on establishing connections and acquiring illicit assets.",
+      "effects": {
+        "resource_gain": 35,
+        "legitimacy_loss": -15,
+        "illicit_network_growth": true
+      }
+    },
+    {
+      "id": "data-theft-operation",
+      "name": "Data Theft Operation",
+      "description": "Focus on stealing critical intelligence and technical data.",
+      "effects": {
+        "intel_gain": 40,
+        "technological_leapfrog": true,
+        "faction_suspicion": "increased"
+      }
+    },
+    {
+      "id": "resource-harvesting-campaign",
+      "name": "Resource Harvesting Campaign",
+      "description": "Focus on stealing fuel, water, and critical supplies.",
+      "effects": {
+        "resource_gain": 50,
+        "self_sufficiency": true,
+        "raiding_career_growth": true
+      }
+    },
+    {
+      "id": "wild-card-gambit",
+      "name": "Wild Card Gambit",
+      "description": "High-risk, high-reward approach with maximum opportunism.",
+      "effects": {
+        "resource_gain": 60,
+        "legitimacy_loss": -25,
+        "chaos_factor": true
+      }
+    }
+  ]
+}
