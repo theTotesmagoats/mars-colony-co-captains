@@ -1,0 +1,122 @@
+{
+  "routes": [
+    {
+      "id": "fast",
+      "name": "Fast Transit Route",
+      "description": "Direct trajectory with maximum engine output. Arrive significantly sooner but at higher system stress.",
+      "transitDays": 105,
+      "fuelCostFactor": 130,
+      "riskLevel": "high",
+      "effects": {
+        "arrival_position": "excellent",
+        "system_wear": "increased",
+        "morale_risk": "moderate",
+        "fuel_efficiency_penalty": 0.15
+      },
+      "tradeoffs": {
+        "immediate_benefit": "Arrive ~22% sooner, securing prime landing sites and political advantage",
+        "delayed_cost": "Higher engine wear reduces landing margin; crew fatigue increases stress responses"
+      },
+      "visualHints": {
+        "starfield_speed": "high",
+        "engine_bloom": "intense",
+        "alert_level": "caution"
+      }
+    },
+    {
+      "id": "balanced",
+      "name": "Standard Transit Route",
+      "description": "Optimized route with moderate engine output. Balanced risk/reward profile.",
+      "transitDays": 135,
+      "fuelCostFactor": 100,
+      "riskLevel": "medium",
+      "effects": {
+        "arrival_position": "good",
+        "system_wear": "normal",
+        "morale_risk": "low",
+        "fuel_efficiency_penalty": 0.0
+      },
+      "tradeoffs": {
+        "immediate_benefit": "Solid compromise between speed and system preservation",
+        "delayed_cost": "Moon faction may gain positioning advantage"
+      },
+      "visualHints": {
+        "starfield_speed": "moderate",
+        "engine_bloom": "normal",
+        "alert_level": "normal"
+      }
+    },
+    {
+      "id": "economical",
+      "name": "Economical Transit Route",
+      "description": "Extended route with minimal engine use. Conservative resource usage and system preservation.",
+      "transitDays": 170,
+      "fuelCostFactor": 85,
+      "riskLevel": "low",
+      "effects": {
+        "arrival_position": "average",
+        "system_wear": "reduced",
+        "morale_risk": "minimal",
+        "fuel_efficiency_penalty": -0.10
+      },
+      "tradeoffs": {
+        "immediate_benefit": "Maximum system integrity and fuel margin for landing operations",
+        "delayed_cost": "Moon faction likely to establish dominance; limited landing site selection"
+      },
+      "visualHints": {
+        "starfield_speed": "slow",
+        "engine_bloom": "minimal",
+        "alert_level": "calm"
+      }
+    },
+    {
+      "id": "detour-mars-moons",
+      "name": "Mars Moons Detour",
+      "description": "Extended route passing Phobos and Deimos for potential resource harvesting or intelligence gathering.",
+      "transitDays": 160,
+      "fuelCostFactor": 115,
+      "riskLevel": "medium-high",
+      "effects": {
+        "arrival_position": "fair",
+        "system_wear": "moderate",
+        "morale_risk": "moderate",
+        "resource_potential": "high",
+        "intel_gain": "high"
+      },
+      "tradeoffs": {
+        "immediate_benefit": "Opportunity to acquire rare minerals or intelligence on Moon faction movements",
+        "delayed_cost": "Significant time delay; exposure to potential interception during detour"
+      },
+      "visualHints": {
+        "starfield_speed": "variable",
+        "engine_bloom": "moderate",
+        "alert_level": "caution",
+        "special_events": ["phobos_encounter", "deimos_rendezvous"]
+      }
+    },
+    {
+      "id": "solar-storm-detour",
+      "name": "Solar-Storm Avoidance",
+      "description": "Extended route with additional shielding and course adjustments to avoid predicted solar flare activity.",
+      "transitDays": 150,
+      "fuelCostFactor": 110,
+      "riskLevel": "low-medium",
+      "effects": {
+        "arrival_position": "good",
+        "system_wear": "reduced",
+        "morale_risk": "minimal",
+        "radiation_protection": "high"
+      },
+      "tradeoffs": {
+        "immediate_benefit": "Crew safety and system integrity protected from solar radiation events",
+        "delayed_cost": "Moderate time penalty; potential for Moon faction to exploit the delay"
+      },
+      "visualHints": {
+        "starfield_speed": "moderate",
+        "engine_bloom": "normal",
+        "alert_level": "caution",
+        "special_effects": ["solar_shielding", "radiation_guard"]
+      }
+    }
+  ]
+}
