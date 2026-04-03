@@ -2,8 +2,8 @@
  * Briefing Scene Controller for Mars Colony Co-Captains
  * 
  * Manages the pre-launch mission planning phase where players:
- * - Choose ship loadout
- * - Select route profile
+ * - Choose ship loadout (data-driven from ships.json)
+ * - Select route profile (data-driven from routes.json) 
  * - Balance passengers, fuel, supplies, and security
  * - Experience role-specific perspectives on tradeoffs
  */
@@ -28,68 +28,16 @@ export class BriefingScene {
             }
         };
         
-        // Available options from content files (simplified for now)
-        this.availableRoutes = [
-            {
-                id: 'fast',
-                name: 'Fast Transit',
-                description: 'Direct route with maximum engine output. Arrive 25% sooner.',
-                transitDays: 105,
-                fuelCost: 130,
-                riskLevel: 'high',
-                effects: {
-                    arrival_position: 'excellent', // Better landing site selection
-                    system_wear: 'increased',
-                    morale_risk: 'moderate'
-                }
-            },
-            {
-                id: 'balanced',
-                name: 'Standard Transit',
-                description: 'Optimized route with moderate engine output. Balanced risk/reward.',
-                transitDays: 135,
-                fuelCost: 100,
-                riskLevel: 'medium',
-                effects: {
-                    arrival_position: 'good',
-                    system_wear: 'normal',
-                    morale_risk: 'low'
-                }
-            },
-            {
-                id: 'economical',
-                name: 'Economical Transit',
-                description: 'Extended route with minimal engine use. Conservative resource usage.',
-                transitDays: 170,
-                fuelCost: 85,
-                riskLevel: 'low',
-                effects: {
-                    arrival_position: 'average',
-                    system_wear: 'reduced',
-                    morale_risk: 'minimal'
-                }
-            }
-        ];
-        
-        this.availableShips = [
-            {
-                id: 'ares-heavy',
-                name: 'Ares-Class Heavy Lifter',
-                class: 'heavy-lifter',
-                description: 'Large cargo capacity with balanced systems. Best all-rounder.',
-                capacity: {
-                    passengers: 24,
-                    cargoMassKg: 15000,
-                    fuelMassKg: 8000
-                },
-                strengths: ['cargo_capacity', 'system_redundancy'],
-                weaknesses: ['speed', 'stealth']
-            }
-        ];
+        // Data from content files (will be populated in enter())
+        this.availableRoutes = [];
+        this.availableShips = [];
     }
     
     async enter() {
         console.log('Entering Briefing Scene (Pre-Launch Planning)');
+        
+        // Load content data if not already loaded
+        await this._loadContentData();
         
         // Setup planning interface
         await this._setupPlanningInterface();
@@ -102,6 +50,95 @@ export class BriefingScene {
     
     exit() {
         console.log('Exiting Briefing Scene');
+    }
+    
+    async _loadContentData() {
+        try {
+            const app = window.__app;
+            
+            // Use ships data from app if available, otherwise fallback
+            this.availableShips = app?.shipsData?.ships || [
+                {
+                    id: 'ares-heavy',
+                    name: 'Ares-Class Heavy Lifter',
+                    class: 'heavy-lifter',
+                    description: 'Large cargo capacity with balanced systems. Best all-rounder for Mars colonization missions.',
+                    capacity: {
+                        passengers: 24,
+                        cargoMassKg: 15000,
+                        fuelMassKg: 8000
+                    }
+                },
+                {
+                    id: 'luna-courier',
+                    name: 'Luna Courier-class',
+                    class: 'fast-transit', 
+                    description: 'Agile vessel with enhanced engines but limited cargo space. Optimized for speed over capacity.',
+                    capacity: {
+                        passengers: 12,
+                        cargoMassKg: 8000,
+                        fuelMassKg: 6000
+                    }
+                },
+                {
+                    id: 'gaia-colony-ship',
+                    name: 'Gaia-class Colony Ship', 
+                    class: 'colonist-transit',
+                    description: 'Specialized for long-duration transit with enhanced life support and passenger comfort.',
+                    capacity: {
+                        passengers: 40,
+                        cargoMassKg: 12000,
+                        fuelMassKg: 7500
+                    }
+                },
+                {
+                    id: 'chaos-stealth-raider',
+                    name: 'Chaos-class Stealth Raider',
+                    class: 'stealth-cutter',
+                    description: 'A black stealth raider with room for only two human operators and one deeply unqualified but alarmingly effective ship AI.',
+                    capacity: {
+                        passengers: 2,
+                        cargoMassKg: 3500,
+                        fuelMassKg: 4000
+                    }
+                }
+            ];
+            
+            // Use routes data from app if available, otherwise fallback
+            this.availableRoutes = app?.routesData?.routes || [
+                {
+                    id: 'fast',
+                    name: 'Fast Transit Route',
+                    description: 'Direct trajectory with maximum engine output. Arrive significantly sooner but at higher system stress.',
+                    transitDays: 105,
+                    fuelCostFactor: 130,
+                    riskLevel: 'high'
+                },
+                {
+                    id: 'balanced', 
+                    name: 'Standard Transit Route',
+                    description: 'Optimized route with moderate engine output. Balanced risk/reward profile.',
+                    transitDays: 135,
+                    fuelCostFactor: 100,
+                    riskLevel: 'medium'
+                },
+                {
+                    id: 'economical', 
+                    name: 'Economical Transit Route',
+                    description: 'Extended route with minimal engine use. Conservative resource usage and system preservation.',
+                    transitDays: 170,
+                    fuelCostFactor: 85,
+                    riskLevel: 'low'
+                }
+            ];
+            
+            console.log('Content data loaded:', {
+                shipsCount: this.availableShips.length,
+                routesCount: this.availableRoutes.length
+            });
+        } catch (error) {
+            console.error('Failed to load content data:', error);
+        }
     }
     
     async _setupPlanningInterface() {
@@ -208,26 +245,26 @@ export class BriefingScene {
         const configContainer = document.createElement('div');
         configContainer.className = 'config-container';
         
-        // Ship card
+        // Ship card (data-driven from availableShips)
         const shipCard = document.createElement('div');
         shipCard.className = 'ship-card';
         shipCard.innerHTML = `
             <h3>Selected Vessel</h3>
-            <h4>Ares-Class Heavy Lifter</h4>
-            <p>Heavy-lifter class with optimal balance for Mars transit.</p>
+            <h4 id="selected-ship-name">${this.availableShips[0]?.name || 'Ares-Class Heavy Lifter'}</h4>
+            <p>${this.availableShips[0]?.description || 'Heavy-lifter class with optimal balance for Mars transit.'}</p>
             
             <div class="capacity-grid">
                 <div class="capacity-item">
                     <span class="label">Passenger Capacity:</span>
-                    <span class="value">${this.availableShips[0].capacity.passengers} crew</span>
+                    <span class="value">${this.availableShips[0]?.capacity?.passengers || 24} crew</span>
                 </div>
                 <div class="capacity-item">
                     <span class="label">Cargo Mass:</span>
-                    <span class="value">${this.availableShips[0].capacity.cargoMassKg} kg</span>
+                    <span class="value">${this.availableShips[0]?.capacity?.cargoMassKg || 15000} kg</span>
                 </div>
                 <div class="capacity-item">
                     <span class="label">Fuel Capacity:</span>
-                    <span class="value">${this.availableShips[0].capacity.fuelMassKg} kg</span>
+                    <span class="value">${this.availableShips[0]?.capacity?.fuelMassKg || 8000} kg</span>
                 </div>
             </div>
         `;
@@ -299,16 +336,16 @@ export class BriefingScene {
                     </div>
                     <div class="stat-item">
                         <span class="label">Fuel Cost:</span>
-                        <span class="value">${route.fuelCost}% efficiency factor</span>
+                        <span class="value">${route.fuelCostFactor}% efficiency factor</span>
                     </div>
                 </div>
                 
                 <div class="route-effects">
                     <h4>Expected Effects</h4>
                     <ul>
-                        <li>Arrival Position: ${route.effects.arrival_position}</li>
-                        <li>System Wear: ${route.effects.system_wear}</li>
-                        <li>Morale Risk: ${route.effects.morale_risk}</li>
+                        <li><strong>Arrival Position:</strong>${route.effects?.arrival_position ? ' ' + route.effects.arrival_position : ''}</li>
+                        <li><strong>System Wear:</strong>${route.effects?.system_wear ? ' ' + route.effects.system_wear : ''}</li>
+                        <li><strong>Morale Risk:</strong>${route.effects?.morale_risk ? ' ' + route.effects.morale_risk : ''}</li>
                     </ul>
                 </div>
                 
@@ -535,7 +572,7 @@ export class BriefingScene {
         if (route) {
             this.planningState.selectedRoute = route;
             
-            // Update game state
+            // Update game state with unified speed field
             this.gameState.selectRoute(route);
             
             console.log('Route selected:', route.name);
@@ -576,8 +613,13 @@ export class BriefingScene {
         
         console.log('Mission confirmed. Launching to bridge scene...');
         
-        // Transition to bridge scene
-        window.MarsColonyApp.switchScene('bridge');
+        // Transition to bridge scene using the app instance
+        const app = window.__app;
+        if (app && typeof app.switchScene === 'function') {
+            app.switchScene('bridge');
+        } else {
+            alert('System error: Cannot switch to bridge scene');
+        }
     }
     
     _resetPlanning() {
