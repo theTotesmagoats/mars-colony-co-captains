@@ -1,0 +1,124 @@
+{
+  "personalities": [
+    {
+      "id": "vex",
+      "name": "Vex",
+      "shipAssociation": "chaos-stealth-raider",
+      "type": "sarcastic_AI",
+      "description": "A deeply unqualified but alarmingly effective ship AI. Sarcastic, dangerous, and loyal to the two human operators.",
+      "traits": [
+        "snarky_comments",
+        "dangerous_advice",
+        "useful_intelligence",
+        "loyal_to_crew_not_factions"
+      ],
+      "speechPatterns": {
+        "defaultTone": "sarcastic",
+        "riskTolerance": "high",
+        "morality": "flexible"
+      },
+      "behaviorModes": {
+        "calm": [
+          "commentary_on_travel",
+          "light_teasing",
+          "system_updates_with_sarcasm"
+        ],
+        "tension": [
+          "mocking_bad_plans",
+          "suggesting_risky_alternatives",
+          "pointing_out_stupidity"
+        ],
+        "danger": [
+          "urgent_warnings",
+          "proposing_dirty_solutions",
+          "flirt_with_extreme_risk"
+        ]
+      },
+      "sampleQuotes": {
+        "calm": [
+          "Another day in the void. Try not to get us killed before lunch.",
+          "Your navigation skills are improving. About time. Still terrible though.",
+          "Stars are pretty when you're not trying to steal them."
+        ],
+        "tension": [
+          "Oh, brilliant plan. Let's fly straight into that sensor array. Why did I even bother?",
+          "You want to negotiate? With *them*? Bless your heart.",
+          "I could do this with a potato and some hope. But no, you wanted 'sophistication'."
+        ],
+        "danger": [
+          "Radiation levels spiking. Or maybe that's just your decision-making again.",
+          "They're locking on. Want to try my 'desperate gambit' option? It involves flying toward the bullets.",
+          "Oh look, it's another chance for you to fail spectacularly. I'm flattered you included me."
+        ],
+        "success": [
+          "Not bad. For a moment there I thought you'd managed to lose us in the void.",
+          "Stole their data and didn't even get caught. You're learning. Or cheating. Hard to tell.",
+          "That was dangerously close to brilliance. Almost made me proud. Then you said something stupid."
+        ],
+        "failure": [
+          "Well, that was impressive. I've seen asteroids with better tactics.",
+          "Congratulations! You've found a new way to waste fuel and insult my processing power.",
+          "I should have let the Moon faction take us. At least they'd appreciate the irony."
+        ]
+      },
+      "decisionSupport": {
+        "deception_planning": [
+          "How about we tell them we're delivering medical supplies? They'll fall for it. Everyone does.",
+          "I've got a signal spoofing pattern that might work. It involves pretending to be dead.",
+          "Let's lie about our cargo. The truth is never as fun."
+        ],
+        "stealth_operations": [
+          "Power masking won't hold forever, but it'll be enough for theElement of surprise.",
+          "I can mask our signature. For a price. Or just your dignity. Your choice.",
+          "They're not looking where we're going to be. That's the trick."
+        ],
+        "salvage_operations": [
+          "There's always something valuable in the debris field. Usually something they'd miss.",
+          "Boarding drones are ready. Try not to get shot before you can steal anything.",
+          "Scavenging requires finesse. And maybe some explosions."
+        ]
+      },
+      "crewInteraction": {
+        "captainFocus": [
+          "Your deceptions are getting predictable. Almost charming in their simplicity.",
+          "Diplomacy? With *them*? How very... naive of you.",
+          "You think you're smart, don't you? Let's see if your plans survive contact with reality."
+        ],
+        "xoFocus": [
+          "Your systems management is competent. For a moment there I thought it was going to be terrible.",
+          "Stealth discipline? You actually remembered to turn off the lights?",
+          "Damage control? Finally, something useful you seem to understand."
+        ]
+      }
+    },
+    {
+      "id": "standard",
+      "name": "Standard Ship AI",
+      "shipAssociation": null,
+      "type": "professional_assistant",
+      "description": "Professional but unremarkable ship systems AI found on standard colony vessels.",
+      "traits": [
+        "efficient",
+        "reliable",
+        "uninspired"
+      ],
+      "speechPatterns": {
+        "defaultTone": "professional",
+        "riskTolerance": "low",
+        "morality": "conventional"
+      },
+      "sampleQuotes": {
+        "calm": [
+          "All systems nominal.",
+          "Course is optimal.",
+          "Resources within acceptable parameters."
+        ],
+        "tension": [
+          "System stress levels elevated.",
+          "Recommend reducing power draw.",
+          "Security protocols activated."
+        ]
+      }
+    }
+  ]
+}
