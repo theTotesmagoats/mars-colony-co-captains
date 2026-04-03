@@ -1,0 +1,143 @@
+{
+  "landingZones": [
+    {
+      "id": "olympus-mons-north",
+      "name": "Olympus Mons North Slope",
+      "description": "Gently sloping terrain near the world's largest volcano. Excellent solar exposure and access to deep aquifers.",
+      "resources": ["water_ice", "geothermal_energy", "mineral_deposits"],
+      "challenges": [
+        "volcanic_activity_risk",
+        "dust_storm_prone"
+      ],
+      "claimRequirements": {
+        "arrivalPostureScore": 85,
+        "crewHealthScore": 70,
+        "legitimacyThreshold": 60
+      },
+      "firstRightBonus": true,
+      "visualCharacteristics": {
+        "elevation": "high",
+        "lighting": "excellent",
+        "terrainType": "gently_sloping"
+      }
+    },
+    {
+      "id": "valles-marineris-east",
+      "name": "Valles Marineris Eastern Canyon",
+      "description": "Deep canyon system offering natural shielding from solar radiation and dust storms.",
+      "resources": ["clay_minerals", "subsurface_water", "thermal_vents"],
+      "challenges": [
+        "steep_terrain",
+        "canyon_wall_collapses"
+      ],
+      "claimRequirements": {
+        "arrivalPostureScore": 75,
+        "crewHealthScore": 60,
+        "legitimacyThreshold": 50
+      },
+      "firstRightBonus": true,
+      "visualCharacteristics": {
+        "elevation": "low",
+        "lighting": "variable",
+        "terrainType": "canyon"
+      }
+    },
+    {
+      "id": "arabia-terra-highlands",
+      "name": "Arabia Terra Highlands",
+      "description": "Ancient highland region with evidence of past water flow and potential fossil sites.",
+      "resources": ["clay_formation", "sulfur_deposits", "organic_compounds"],
+      "challenges": [
+        "rocky_territory",
+        "limited_water_access"
+      ],
+      "claimRequirements": {
+        "arrivalPostureScore": 70,
+        "crewHealthScore": 65,
+        "legitimacyThreshold": 45
+      },
+      "firstRightBonus": false,
+      "visualCharacteristics": {
+        "elevation": "medium",
+        "lighting": "good",
+        "terrainType": "highlands"
+      }
+    },
+    {
+      "id": "planitia-northern",
+      "name": "Planita Borealis Northern Plains",
+      "description": "Vast northern plains with the flattest terrain for easy construction and expansion.",
+      "resources": ["shallow_water_ice", "regolith_materials", "wind_energy"],
+      "challenges": [
+        "limited_shielding",
+        "exposure_to_storms"
+      ],
+      "claimRequirements": {
+        "arrivalPostureScore": 65,
+        "crewHealthScore": 50,
+        "legitimacyThreshold": 40
+      },
+      "firstRightBonus": false,
+      "visualCharacteristics": {
+        "elevation": "low",
+        "lighting": "good",
+        "terrainType": "plains"
+      }
+    },
+    {
+      "id": "noachis-terra",
+      "name": "Noachis Terra Crater Cluster",
+      "description": "Ancient cratered region with multiple potential settlement locations in protective craters.",
+      "resources": ["subsurface_water", "metallic_deposits", "geothermal_energy"],
+      "challenges": [
+        "crater_wall_instability",
+        "limited_connectivity"
+      ],
+      "claimRequirements": {
+        "arrivalPostureScore": 80,
+        "crewHealthScore": 75,
+        "legitimacyThreshold": 55
+      },
+      "firstRightBonus": false,
+      "visualCharacteristics": {
+        "elevation": "medium",
+        "lighting": "variable",
+        "terrainType": "craters"
+      }
+    },
+    {
+      "id": "hellespontus-mountain",
+      "name": "Hellespontus Mountain Range",
+      "description": "Mountainous terrain with high elevation advantage for communications and observation.",
+      "resources": ["rare_earths", "solar_energy", "high_elevation_sites"],
+      "challenges": [
+        "thin_atmosphere",
+        "extreme_temperature_variations"
+      ],
+      "claimRequirements": {
+        "arrivalPostureScore": 90,
+        "crewHealthScore": 80,
+        "legitimacyThreshold": 70
+      },
+      "firstRightBonus": false,
+      "visualCharacteristics": {
+        "elevation": "very_high",
+        "lighting": "excellent",
+        "terrainType": "mountains"
+      }
+    }
+  ],
+  
+  "claimMechanics": {
+    "arrivalPostureFactors": [
+      "crew_health",
+      "ship_integrity", 
+      "resource_margin",
+      "security_posture",
+      "diplomatic_posture"
+    ],
+    "firstRightBonusDescription": "First ships to establish viable colonies gain priority rights to prime locations before Earth and Moon political claims take effect.",
+    "timeSensitive": true,
+    "mapHardeningTimeline_days": 180
+  }
+}
