@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mars Colony Co-Captains</title>
+    <link rel="stylesheet" href="../public/assets/styles/main.css">
+</head>
+<body class="app-container">
+    <!-- Loading state -->
+    <div id="loading-screen" class="screen active">
+        <h1 class="loading-title">MARS COLONY CO-CAPTAINS</h1>
+        <p class="loading-subtitle">Initializing Systems...</p>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+    </div>
+
+    <!-- Main game container -->
+    <main id="game-container" class="hidden">
+        <!-- Header / Status Bar -->
+        <header id="status-bar" class="status-bar hidden">
+            <div class="status-section time">
+                <span class="label">Mission Time</span>
+                <span class="value" id="mission-time">Day 0</span>
+            </div>
+            <div class="status-section velocity">
+                <span class="label">Velocity</span>
+                <span class="value" id="ship-velocity">0 km/s</span>
+            </div>
+            <div class="status-section fuel">
+                <span class="label">Fuel Margin</span>
+                <span class="value" id="fuel-status">100%</span>
+            </div>
+            <div class="status-section alert-level" id="alert-indicator">
+                <span class="label">Alert Level</span>
+                <span class="value" id="alert-status">Normal</span>
+            </div>
+        </header>
+
+        <!-- Main scene area -->
+        <section id="main-scene" class="scene-container">
+            <!-- Dynamic content will be injected here by rendering system -->
+        </section>
+
+        <!-- Station navigation / Controls -->
+        <nav id="station-nav" class="station-nav hidden">
+            <button class="station-btn active" data-station="command">COMMAND</button>
+            <button class="station-btn" data-station="helm">HELM</button>
+            <button class="station-btn" data-station="tactical">TACTICAL</button>
+            <button class="station-btn" data-station="engineering">ENGINEERING</button>
+            <button class="station-btn" data-station="comms">COMMS</button>
+            <button class="station-btn" data-station="science">SCIENCE</button>
+        </nav>
+
+        <!-- Station console overlay -->
+        <aside id="console-overlay" class="console-overlay hidden">
+            <div class="overlay-header">
+                <h2 id="current-station-title">Command Console</h2>
+                <button id="close-console" class="close-btn">×</button>
+            </div>
+            <div id="station-content" class="console-content">
+                <!-- Dynamic console content will be injected here -->
+            </div>
+        </aside>
+    </main>
+
+    <!-- Scripts -->
+    <script src="../src/main.js"></script>
+</body>
+</html>
