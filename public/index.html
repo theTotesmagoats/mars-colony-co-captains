@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mars Colony Co-Captains</title>
-    <link rel="stylesheet" href="../public/assets/styles/main.css">
+    <link rel="stylesheet" href="./assets/styles/main.css">
+    <link rel="stylesheet" href="./assets/styles/chaos.css">
 </head>
 <body class="app-container">
     <!-- Loading state -->
@@ -53,7 +54,7 @@
             <button class="station-btn" data-station="science">SCIENCE</button>
         </nav>
 
-        <!-- Station console overlay -->
+        <!-- Console overlay for station interactions -->
         <aside id="console-overlay" class="console-overlay hidden">
             <div class="overlay-header">
                 <h2 id="current-station-title">Command Console</h2>
@@ -65,7 +66,7 @@
         </aside>
     </main>
 
-    <!-- Scripts -->
-    <script src="../src/main.js"></script>
+    <!-- Scripts as ES module -->
+    <script type="module" src="./assets/scripts/main.js"></script>
 </body>
 </html>
