@@ -1,17 +1,21 @@
 /**
- * UI Manager for Mars Colony Co-Captains
+ * Premium UI Manager for Mars Colony Co-Captains
  * 
  * Manages user interface state, updates status displays, and coordinates
- * between game state and visual presentation
+ * between game state and visual presentation with premium tactile feedback
  */
+
+import { StatusBar } from './statusBar.js';
+import { StationRail } from './stationRail.js';
 
 export class UIManager {
     constructor(gameState, renderingEngine) {
         this.gameState = gameState;
         this.renderingEngine = renderingEngine;
         
-        // UI elements cache
-        this.elements = {};
+        // Premium UI components
+        this.statusBar = new StatusBar(gameState);
+        this.stationRail = new StationRail(gameState);
         
         // Current alert level
         this.currentAlertLevel = 'normal';
@@ -22,62 +26,35 @@ export class UIManager {
     
     _cacheElements() {
         // Status bar elements
-        this.elements.statusBar = document.getElementById('status-bar');
-        this.elements.missionTime = document.getElementById('mission-time');
-        this.elements.shipVelocity = document.getElementById('ship-velocity');
-        this.elements.fuelStatus = document.getElementById('fuel-status');
-        this.elements.alertIndicator = document.getElementById('alert-indicator');
-        this.elements.alertStatus = document.getElementById('alert-status');
+        this.elements = {
+            statusBar: document.getElementById('status-bar'),
+            missionTime: document.getElementById('mission-time'),
+            shipVelocity: document.getElementById('ship-velocity'),
+            fuelStatus: document.getElementById('fuel-status'),
+            alertIndicator: document.getElementById('alert-indicator'),
+            alertStatus: document.getElementById('alert-status')
+        };
+    }
+    
+    init() {
+        // Initialize premium UI components
+        this.statusBar.init();
+        this.stationRail.init();
         
-        // Console elements
-        this.elements.consoleOverlay = document.getElementById('console-overlay');
-        this.elements.stationContent = document.getElementById('station-content');
-        
-        // Scene container
-        this.elements.sceneContainer = document.getElementById('main-scene');
+        console.log('Premium UI manager initialized');
     }
     
     update() {
         const gameState = this.gameState.getSnapshot();
         
-        // Update status bar
-        this._updateStatusBar(gameState);
+        // Update premium status bar with real telemetry
+        this.statusBar.update(gameState);
+        
+        // Update station rail based on system health
+        this.stationRail.update(gameState);
         
         // Update alert level
         this._updateAlertLevel(gameState);
-        
-        // Update console if open
-        if (this.elements.consoleOverlay.classList.contains('active')) {
-            this._updateOpenConsole(gameState);
-        }
-    }
-    
-    _updateStatusBar(gameState) {
-        const voyage = gameState.voyage;
-        
-        // Mission time
-        this.elements.missionTime.textContent = `Day ${voyage.daysElapsed}`;
-        
-        // Ship velocity
-        const velocity = (voyage.cruiseSpeed * 100).toFixed(2);
-        this.elements.shipVelocity.textContent = `${velocity} km/s`;
-        
-        // Fuel status
-        const fuelPercent = Math.round(
-            (voyage.resources.fuel.current / voyage.resources.fuel.max) * 100
-        );
-        this.elements.fuelStatus.textContent = `${fuelPercent}%`;
-        this._setFuelStatusColor(fuelPercent);
-    }
-    
-    _setFuelStatusColor(percent) {
-        if (percent < 20) {
-            this.elements.fuelStatus.style.color = '#e74c3c';
-        } else if (percent < 50) {
-            this.elements.fuelStatus.style.color = '#f39c12';
-        } else {
-            this.elements.fuelStatus.style.color = '#2ecc71';
-        }
     }
     
     _updateAlertLevel(gameState) {
@@ -87,10 +64,10 @@ export class UIManager {
         if (gameState.voyage.status.morale < 40 || 
             gameState.ship.systems.lifeSupport.integrity < 60 ||
             gameState.ship.systems.engines.wear > 85) {
-            alertLevel = 'red';
+            alertLevel = 'yellow';
         } else if (gameState.voyage.distanceRemainingAU < 0.1 ||
                    gameState.voyage.racePosition.moonFactionDistanceAU < 0.02) {
-            alertLevel = 'yellow';
+            alertLevel = 'red';
         }
         
         // Update visual state
@@ -102,36 +79,42 @@ export class UIManager {
     _changeAlertLevel(level) {
         this.currentAlertLevel = level;
         
+        // Trigger premium visual feedback
+        this.statusBar.triggerAlertPulse();
+        
         // Update DOM elements
-        this.elements.alertIndicator.dataset.alert = level;
-        this.elements.alertStatus.textContent = level === 'normal' ? 'Normal' :
-                                               level === 'yellow' ? 'Caution' : 'RED ALERT';
-        
-        // Trigger rendering engine effects
-        if (level === 'red') {
-            this.renderingEngine.setAlertLevel('red');
-        } else if (level === 'yellow') {
-            this.renderingEngine.setAlertLevel('yellow');
-        } else {
-            this.renderingEngine.setAlertLevel('normal');
+        if (this.elements.alertIndicator) {
+            this.elements.alertIndicator.dataset.alert = level;
         }
-    }
-    
-    _updateOpenConsole(gameState) {
-        // This would update the currently open station console with fresh data
-        // For now, just log that we have new data
-        console.log('Updating console with latest game state...');
         
-        // In a full implementation, this would refresh the active station's content
-        // based on the current game state
+        const statusText = level === 'normal' ? 'Normal' :
+                           level === 'yellow' ? 'Caution' : 'CRITICAL';
+        
+        if (this.elements.alertStatus) {
+            this.elements.alertStatus.textContent = statusText;
+            
+            // Color coding
+            const colors = {
+                normal: '#2ecc71',
+                yellow: '#f39c12', 
+                red: '#e74c3c'
+            };
+            
+            this.elements.alertStatus.style.color = colors[level] || '#2ecc71';
+        }
+        
+        // Trigger station alerts if needed
+        if (level === 'red' || level === 'yellow') {
+            this.stationRail.triggerAlert('command');
+        }
     }
     
     // UI interaction methods
     
     openConsole(stationId) {
-        const overlay = this.elements.consoleOverlay;
-        if (!overlay.classList.contains('active')) {
-            overlay.classList.add('active');
+        const consoleOverlay = document.getElementById('console-overlay');
+        if (consoleOverlay && !consoleOverlay.classList.contains('active')) {
+            consoleOverlay.classList.add('active');
             
             // Update title
             const titles = {
@@ -149,7 +132,10 @@ export class UIManager {
     }
     
     closeConsole() {
-        this.elements.consoleOverlay.classList.remove('active');
+        const consoleOverlay = document.getElementById('console-overlay');
+        if (consoleOverlay) {
+            consoleOverlay.classList.remove('active');
+        }
     }
     
     // Alert display methods
@@ -183,7 +169,7 @@ export class UIManager {
     
     showDecisionPrompt(captainText, xoText, callback) {
         const promptDiv = document.createElement('div');
-        promptDiv.className = 'decision-prompt';
+        promptDiv.className = 'decision-prompt premium';
         promptDiv.innerHTML = `
             <h3>CRITICAL DECISION REQUIRED</h3>
             
@@ -199,7 +185,7 @@ export class UIManager {
                 </div>
             </div>
             
-            <div class="decision-buttons">
+            <div class="decision-buttons premium">
                 <button class="action-btn" data-role="captain">CAPTAIN DECISION</button>
                 <button class="action-btn" data-role="xo">XO DECISION</button>
                 <button class="action-btn secondary" onclick="this.parentNode.parentNode.remove()">CANCEL</button>
@@ -233,7 +219,7 @@ export class UIManager {
     
     showPhaseTransition(phase) {
         const transitionOverlay = document.createElement('div');
-        transitionOverlay.className = 'phase-transition';
+        transitionOverlay.className = 'phase-transition premium';
         
         let phaseTitle, phaseDescription;
         
@@ -255,7 +241,7 @@ export class UIManager {
         transitionOverlay.innerHTML = `
             <h1>${phaseTitle}</h1>
             <p class="description">${phaseDescription}</p>
-            <div class="progress-bar">
+            <div class="progress-bar premium">
                 <div class="progress-fill"></div>
             </div>
         `;
