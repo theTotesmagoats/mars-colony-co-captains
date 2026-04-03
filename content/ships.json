@@ -169,6 +169,106 @@
         "accentColor": "#f39c12",
         "silhouetteStyle": "colony-ship"
       }
+    },
+    {
+      "id": "chaos-stealth-raider",
+      "name": "Chaos-class Stealth Raider",
+      "class": "stealth-cutter",
+      "description": "A black stealth raider with room for only two human operators and one deeply unqualified but alarmingly effective ship AI. Fast, evasive, and morally flexible.",
+      "capacity": {
+        "passengers": 2,
+        "cargoMassKg": 3500,
+        "fuelMassKg": 4000
+      },
+      "systems": {
+        "engines": {
+          "type": "stealth-thrusters",
+          "maxOutput": 0.15,
+          "efficiency": 68,
+          "wearRate": 0.08
+        },
+        "lifeSupport": {
+          "type": "minimal-loop",
+          "capacity": "2-persons",
+          "efficiency": 75,
+          "redundancy": 1
+        },
+        "power": {
+          "type": "compact-reactor",
+          "output": 45,
+          "efficiency": 78,
+          "reserveCapacity": 6
+        },
+        "shields": {
+          "type": "stealth-stealth",
+          "capacity": 20,
+          "regeneration": 2,
+          "draw": 12
+        },
+        "security": {
+          "type": "advanced-digital",
+          "level": 3,
+          "tensionImpact": -8
+        }
+      },
+      "specialSystems": {
+        "stealth": {
+          "radarCrossSection": "minimal",
+          "emissionControl": true,
+          "jammingPotential": "high"
+        },
+        "hacking": {
+          "signalSpoofing": true,
+          "breachTools": true,
+          "deceptionSystems": true
+        },
+        "salvage": {
+          "boardingDrones": true,
+          "extractionEquipment": true,
+          "scavengingTools": true
+        }
+      },
+      "strengths": [
+        "stealth_evasion",
+        "speed_agility",
+        "hacking_deception",
+        "salvage_opportunism",
+        "low_crew_burden"
+      ],
+      "weaknesses": [
+        "passenger_capacity",
+        "cargo_space",
+        "legitimacy",
+        "system_redundancy",
+        "colony_start"
+      ],
+      "aiPersonality": {
+        "name": "Vex",
+        "type": "sarcastic_AI",
+        "traits": ["snarky", "dangerous", "useful", "loyal_to_crew"],
+        "functions": [
+          "comment_on_decisions",
+          "mock_bad_ideas",
+          "propose_dirty_solutions",
+          "warn_about_stupidity",
+          "flirt_with_risk"
+        ]
+      },
+      "artTags": {
+        "primaryColor": "#0a0b14",
+        "accentColor": "#7c4dff",
+        "secondaryAccent": "#ff6e58",
+        "silhouetteStyle": "stealth-raider",
+        "lightingTheme": "low-light-bridge"
+      }
     }
-  ]
+  ],
+  
+  "unlockedContent": {
+    "chaos-stealth-raider": {
+      "unlockCondition": "discover_hidden_hangar",
+      "description": "Unlock the Chaos-class Stealth Raider for alternate campaign runs",
+      "campaignMode": "rogue_outlaw_route"
+    }
+  }
 }
