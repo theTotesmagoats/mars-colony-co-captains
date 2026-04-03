@@ -63,16 +63,39 @@ export class GameStateManager {
                     fuelMassKg: 6500
                 },
                 systems: {
-                    engines: { status: 'optimal', integrity: 100, wear: 0 },
-                    lifeSupport: { status: 'optimal', integrity: 100, efficiency: 100 },
-                    power: { status: 'optimal', integrity: 100, output: 100 },
-                    shields: { status: 'optimal', integrity: 100, draw: 5 },
-                    security: { status: 'normal', level: 2, tension: 0 }
+                    engines: { 
+                        status: 'optimal', 
+                        integrity: 100, 
+                        wear: 0 // FIXED: Initialize wear for all systems
+                    },
+                    lifeSupport: { 
+                        status: 'optimal', 
+                        integrity: 100, 
+                        efficiency: 100,
+                        wear: 0 // FIXED: Initialize wear on degradable system
+                    },
+                    power: { 
+                        status: 'optimal', 
+                        integrity: 100, 
+                        output: 100,
+                        wear: 0 // FIXED: Initialize wear on degradable system
+                    },
+                    shields: { 
+                        status: 'optimal', 
+                        integrity: 100, 
+                        draw: 5,
+                        wear: 0 // FIXED: Initialize wear on degradable system
+                    },
+                    security: { 
+                        status: 'normal', 
+                        level: 2, 
+                        tension: 0 
+                    }
                 },
                 // FIXED: Unified speed fields
                 stats: {
                     maxSpeed: 0.08, // AU/day
-                    cruiseSpeed: 0.04, // Now unified with voyage.cruiseSpeed
+                    cruiseSpeed: 0.04, // Now unified with voyage.currentSpeedAUPerDay
                     fuelEfficiency: 0.15, // % per day at cruise
                     wearRate: 0.02 // % per day at cruise
                 }
@@ -83,7 +106,7 @@ export class GameStateManager {
                 phase: 'preLaunch', // preLaunch, inTransit, approach
                 daysElapsed: 0,
                 distanceRemainingAU: 0.523, // Earth to Mars average
-                cruiseSpeed: 0.04, // FIXED: Unified with ship.stats.cruiseSpeed
+                currentSpeedAUPerDay: 0.04, // FIXED: Single authoritative speed field
                 routeProfile: 'balanced', // fast, balanced, economical
                 
                 resources: {
@@ -120,12 +143,13 @@ export class GameStateManager {
                 active: []
             },
             
-            // Second-order effect tracking
+            // FIXED: Consistent consequences schema
             consequences: {
                 wearAccumulated: 0,
                 fuelMarginUsed: 0,
                 moraleImpact: 0,
-                legitimacyChanges: []
+                legitimacyChanges: [], // Changed from impact to consistency
+                impacts: [] // Also include impact array for flexibility
             }
         };
         
@@ -190,25 +214,25 @@ export class GameStateManager {
         // Apply route effects to unified speed field
         switch(route.id) {
             case 'fast':
-                this.state.ship.stats.cruiseSpeed = 0.06; // Also update voyage.cruiseSpeed below
-                this.state.voyage.cruiseSpeed = 0.06; // FIXED: Unified with ship stats
+                this.state.ship.stats.cruiseSpeed = 0.06; // Also update voyage.currentSpeedAUPerDay below
+                this.state.voyage.currentSpeedAUPerDay = 0.06; // FIXED: Unified with ship stats
                 this.state.ship.stats.fuelEfficiency *= 1.35; // More fuel consumption
                 this.state.voyage.distanceRemainingAU -= 0.02; // Slightly shorter path
                 break;
             case 'balanced':
-                this.state.ship.stats.cruiseSpeed = 0.04; // Also update voyage.cruiseSpeed below  
-                this.state.voyage.cruiseSpeed = 0.04; // FIXED: Unified with ship stats
+                this.state.ship.stats.cruiseSpeed = 0.04; // Also update voyage.currentSpeedAUPerDay below  
+                this.state.voyage.currentSpeedAUPerDay = 0.04; // FIXED: Unified with ship stats
                 this.state.ship.stats.fuelEfficiency *= 1.0;
                 break;
             case 'economical':
-                this.state.ship.stats.cruiseSpeed = 0.03; // Also update voyage.cruiseSpeed below
-                this.state.voyage.cruiseSpeed = 0.03; // FIXED: Unified with ship stats
+                this.state.ship.stats.cruiseSpeed = 0.03; // Also update voyage.currentSpeedAUPerDay below
+                this.state.voyage.currentSpeedAUPerDay = 0.03; // FIXED: Unified with ship stats
                 this.state.ship.stats.fuelEfficiency *= 0.85; // Less fuel consumption
                 this.state.voyage.distanceRemainingAU += 0.02; // Slightly longer path
                 break;
         }
         
-        console.log('Route selected:', route.id, 'Speed set to:', this.state.voyage.cruiseSpeed);
+        console.log('Route selected:', route.id, 'Speed set to:', this.state.voyage.currentSpeedAUPerDay);
     }
     
     // Voyage simulation methods
@@ -239,8 +263,8 @@ export class GameStateManager {
         const dailyWear = this.state.ship.stats.wearRate * days;
         this._applySystemWear(dailyWear);
         
-        // Update voyage progress using unified cruiseSpeed
-        const distanceTraveled = voyage.cruiseSpeed * days; // FIXED: Now uses unified state field
+        // Update voyage progress using unified currentSpeedAUPerDay
+        const distanceTraveled = voyage.currentSpeedAUPerDay * days; // FIXED: Now uses unified state field
         voyage.distanceRemainingAU -= distanceTraveled;
         voyage.daysElapsed += days;
         
@@ -264,7 +288,7 @@ export class GameStateManager {
     _applySystemWear(wearAmount) {
         const systems = this.state.ship.systems;
         
-        // Apply wear to all systems
+        // FIXED: Apply wear to all degradable systems (not just engines)
         Object.keys(systems).forEach(key => {
             if (key === 'security') return; // Security doesn't wear like other systems
             
@@ -289,12 +313,25 @@ export class GameStateManager {
         const moraleImpact = Math.floor(Math.random() * 15) + 5;
         this.state.voyage.status.morale -= moraleImpact;
         
-        // Log consequence
-        if (!this.state.consequences.impact) {
-            this.state.consequences.impact = [];
+        // FIXED: Use consistent schema - push to consequences.legitimacyChanges
+        if (!this.state.consequences.legitimacyChanges) {
+            this.state.consequences.legitimacyChanges = [];
         }
         
-        this.state.consequences.impact.push({
+        this.state.consequences.legitimacyChanges.push({
+            type: 'resource_critical',
+            resource,
+            daysToZero: 0,
+            moraleImpact,
+            timestamp: Date.now()
+        });
+        
+        // Also push to impacts array for flexibility
+        if (!this.state.consequences.impacts) {
+            this.state.consequences.impacts = [];
+        }
+        
+        this.state.consequences.impacts.push({
             type: 'resource_critical',
             resource,
             daysToZero: 0,

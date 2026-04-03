@@ -1,0 +1,41 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches:
+      - pass-0-deployment-fix
+    paths:
+      - 'public/**'
+      - 'src/**'
+      - 'content/**'
+      - '.github/workflows/gh-pages.yml'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      # Create docs directory with proper structure
+      - name: Setup docs directory
+        run: |
+          mkdir -p docs
+          cp public/index.html docs/
+          cp README.md docs/
+          
+          # Copy assets and content for production
+          cp -r public/assets docs/
+          cp -r src docs/  # Keep source accessible if needed
+          cp -r content docs/
+      
+      # Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4.6.0
+        with:
+          branch: gh-pages
+          folder: docs
+          clean: true
+          single-commit: true
