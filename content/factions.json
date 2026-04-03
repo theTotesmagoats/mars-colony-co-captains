@@ -1,0 +1,85 @@
+{
+  "factions": [
+    {
+      "id": "earth_government",
+      "name": "Earth Government Consortium",
+      "description": "The unified Earth authorities who funded Moon colony development but now seek returns on investment.",
+      "posture": "demanding",
+      "influence_level": 85,
+      "resources": {
+        "funding": "active",
+        "propaganda": "high",
+        "technical_support": "moderate"
+      },
+      "objectives": [
+        "Recoup investment through Mars resource rights",
+        "Maintain political control over colonial development",
+        "Prevent Moon faction independence"
+      ],
+      "relationship_dynamics": {
+        "moon_colony": "tense_expects_return",
+        "colonist_vessels": "monitoring",
+        "independent_mission": "suspicious_but_funding_potential"
+      },
+      "response_patterns": {
+        "positive_deeds": ["increased_support", "public_acknowledgment"],
+        "neutral_deeds": ["minimal_response", "standard_procedure"],
+        "negative_deeds": ["funding_review", "political_pressure"]
+      }
+    },
+    {
+      "id": "moon_colony",
+      "name": "Lunar Frontier Alliance",
+      "description": "The Moon colony settlers who believe their frontier sacrifice earned them first rights to Mars.",
+      "posture": "assertive",
+      "influence_level": 72,
+      "resources": {
+        "funding": "reduced",
+        "propaganda": "high",
+        "technical_support": "limited"
+      },
+      "objectives": [
+        "Establish first permanent settlement on Mars",
+        "Assert independence from Earth political control",
+        "Secure prime resource locations"
+      ],
+      "relationship_dynamics": {
+        "earth_government": "resistant_to_control",
+        "colonist_vessels": "competitive_but_potential_partner",
+        "independent_mission": "警惕ing_potential_threat"
+      },
+      "response_patterns": {
+        "positive_deeds": ["potential_alliance", "intel_sharing"],
+        "neutral_deeds": ["observation", "maintain_distance"],
+        "negative_deeds": ["political_opposition", "resource_blockade"]
+      }
+    },
+    {
+      "id": "private_consortium",
+      "name": "Private Interplanetary Consortium",
+      "description": "Corporate interests focused on resource extraction and profit, less concerned with political narratives.",
+      "posture": " opportunistic",
+      "influence_level": 65,
+      "resources": {
+        "funding": "high",
+        "propaganda": "moderate",
+        "technical_support": "excellent"
+      },
+      "objectives": [
+        "Maximize resource extraction ROI",
+        "Establish commercial dominance on Mars",
+        "Maintain neutrality in political conflicts"
+      ],
+      "relationship_dynamics": {
+        "earth_government": "negotiating_partnership",
+        "moon_colony": "business_opportunity",
+        "independent_mission": "potential_customer_or_competitor"
+      },
+      "response_patterns": {
+        "positive_deeds": ["commercial_interest", "investment_inquiry"],
+        "neutral_deeds": ["market_observation"],
+        "negative_deeds": ["competitive_intelligence", "market_positioning"]
+      }
+    }
+  ]
+}
