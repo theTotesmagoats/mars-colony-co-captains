@@ -1,0 +1,497 @@
+{
+  "events": [
+    {
+      "id": "solar_storm",
+      "name": "Solar Storm Alert",
+      "description": "Major solar flare detected on collision course. Radiation levels rising rapidly.",
+      "severity": "high",
+      "duration_days": 3,
+      "trigger_conditions": {
+        "min_distance_from_sun": 0.3,
+        "chance_per_day": 0.15
+      },
+      "effects": {
+        "radiation_exposure": true,
+        "shielding_required": true,
+        "morale_impact": -5,
+        "systems_affected": ["life_support", "sensors"]
+      },
+      "player_responses": [
+        {
+          "role": "captain",
+          "option": "schedule_posture_normal",
+          "description": "Maintain normal schedule while taking precautions.",
+          "effects": {
+            "arrival_timing": 0,
+            "system_stress": -10,
+            "crew_safety": 5
+          }
+        },
+        {
+          "role": "captain", 
+          "option": "schedule_posture_cautious",
+          "description": "Reduce speed and delay non-essential activities.",
+          "effects": {
+            "arrival_timing": -2,
+            "system_stress": -20,
+            "crew_safety": 15
+          }
+        },
+        {
+          "role": "xo", 
+          "option": "systems_posture_standard",
+          "description": "Maintain current system configuration.",
+          "effects": {
+            "radiation_protection": 50,
+            "system_load": 0,
+            "power_draw": 5
+          }
+        },
+        {
+          "role": "xo",
+          "option": "systems_posture_hardened",
+          "description": "Increase shielding and power to critical systems.",
+          "effects": {
+            "radiation_protection": 85,
+            "system_load": 20,
+            "power_draw": 15
+          }
+        },
+        {
+          "role": "xo", 
+          "option": "systems_posture_conserve",
+          "description": "Prioritize essential systems only.",
+          "effects": {
+            "radiation_protection": 30,
+            "system_load": -30,
+            "power_draw": -25
+          }
+        }
+      ],
+      "combined_outcomes": [
+        {
+          "condition": "captain_cautious_xo_hardened",
+          "result": "Excellent radiation protection with minor schedule delay.",
+          "effects": {
+            "crew_health": 10,
+            "arrival_timing": -2,
+            "system_integrity": 5
+          }
+        },
+        {
+          "condition": "captain_normal_xo_standard", 
+          "result": "Moderate exposure but minimal schedule impact.",
+          "effects": {
+            "crew_health": -5,
+            "arrival_timing": 0,
+            "system_integrity": 0
+          }
+        },
+        {
+          "condition": "captain_cautious_xo_conserve",
+          "result": "Significant power reduction but good crew safety.",
+          "effects": {
+            "crew_health": 5,
+            "arrival_timing": -2,
+            "system_integrity": -10
+          }
+        }
+      ]
+    },
+    {
+      "id": "debris_field",
+      "name": "Asteroid Debris Field",
+      "description": "Scanner detects dense debris field ahead. Course adjustment or risk of damage required.",
+      "severity": "medium",
+      "duration_days": 1,
+      "trigger_conditions": {
+        "min_distance_from_planet": 0.5,
+        "chance_per_day": 0.2
+      },
+      "effects": {
+        "hazard_level": true,
+        "navigation_complexity": true,
+        "sensor_interference": true
+      },
+      "player_responses": [
+        {
+          "role": "captain",
+          "option": "route_detour",
+          "description": "Take longer but safer route around debris field.",
+          "effects": {
+            "arrival_timing": -3,
+            "fuel_cost": 50,
+            "crew_safety": 15
+          }
+        },
+        {
+          "role": "captain", 
+          "option": "route_direct",
+          "description": "Push through debris field at optimal speed.",
+          "effects": {
+            "arrival_timing": 2,
+            "fuel_cost": -20,
+            "crew_safety": -15
+          }
+        },
+        {
+          "role": "xo", 
+          "option": "countermeasures_standard",
+          "description": "Use standard evasive maneuvers.",
+          "effects": {
+            "damage_probability": 30,
+            "system_stress": 0,
+            "fuel_cost": 10
+          }
+        },
+        {
+          "role": "xo", 
+          "option": "countermeasures_aggressive",
+          "description": "Deploy full evasive systems and shielding.",
+          "effects": {
+            "damage_probability": 5,
+            "system_stress": 20,
+            "fuel_cost": 40
+          }
+        },
+        {
+          "role": "xo", 
+          "option": "countermeasures_minimal",
+          "description": "Minimal defensive measures to save resources.",
+          "effects": {
+            "damage_probability": 55,
+            "system_stress": -10,
+            "fuel_cost": -15
+          }
+        }
+      ],
+      "combined_outcomes": [
+        {
+          "condition": "captain_detour_xo_aggressive",
+          "result": "Perfect navigation through debris field.",
+          "effects": {
+            "ship_integrity": 10,
+            "arrival_timing": -3,
+            "crew_confidence": 5
+          }
+        },
+        {
+          "condition": "captain_direct_xo_minimal", 
+          "result": "Significant damage but minimal delay.",
+          "effects": {
+            "ship_integrity": -25,
+            "arrival_timing": 2,
+            "crew_safety": -10
+          }
+        },
+        {
+          "condition": "captain_detour_xo_minimal",
+          "result": "Safe route with resource conservation.",
+          "effects": {
+            "ship_integrity": 5,
+            "arrival_timing": -3,
+            "fuel_margin": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "rival_encounter",
+      "name": "Moon Faction Vessel Encounter",
+      "description": "Unmarked vessel approaches from lunar orbital plane. No response to hails.",
+      "severity": "high",
+      "duration_days": null,
+      "trigger_conditions": {
+        "moon_relationship_tension": 60,
+        "chance_per_day": 0.1
+      },
+      "effects": {
+        "political_pressure": true,
+        "security_threat": true,
+        "intelligence_opportunity": true
+      },
+      "player_responses": [
+        {
+          "role": "captain",
+          "option": "diplomatic_channel_open",
+          "description": "Attempt open communication and establish contact.",
+          "effects": {
+            "moon_relationship": -5,
+            "security_risk": 10,
+            "intel_gain": 15
+          }
+        },
+        {
+          "role": "captain", 
+          "option": "diplomatic_channel_caution",
+          "description": "Monitor but avoid direct contact.",
+          "effects": {
+            "moon_relationship": -2,
+            "security_risk": 5,
+            "intel_gain": 5
+          }
+        },
+        {
+          "role": "captain", 
+          "option": "diplomatic_channel_closed",
+          "description": "Maintain radio silence and avoid engagement.",
+          "effects": {
+            "moon_relationship": 3,
+            "security_risk": -10,
+            "intel_gain": -20
+          }
+        },
+        {
+          "role": "xo", 
+          "option": "countermeasures_standard",
+          "description": "Maintain standard defensive posture.",
+          "effects": {
+            "exposure_risk": 20,
+            "system_load": 0,
+            "morale_impact": -5
+          }
+        },
+        {
+          "role": "xo", 
+          "option": "countermeasures_evasive",
+          "description": "Deploy counter-detection systems and evasive patterns.",
+          "effects": {
+            "exposure_risk": 5,
+            "system_load": 15,
+            "fuel_cost": 20
+          }
+        },
+        {
+          "role": "xo", 
+          "option": "countermeasures_confrontational",
+          "description": "Active counter-detection and signal jamming.",
+          "effects": {
+            "exposure_risk": -15,
+            "moon_relationship": -20,
+            "crew_tension": 10
+          }
+        }
+      ],
+      "combined_outcomes": [
+        {
+          "condition": "captain_diplomatic_open_xo_evasive",
+          "result": "Successful contact with minimal exposure.",
+          "effects": {
+            "intel_gain": 25,
+            "moon_relationship": -3,
+            "security_risk": 0
+          }
+        },
+        {
+          "condition": "captain_diplomatic_closed_xo_confrontational", 
+          "result": "Moon faction perceives hostility.",
+          "effects": {
+            "intel_gain": -10,
+            "moon_relationship": -25,
+            "security_risk": 10
+          }
+        },
+        {
+          "condition": "captain_diplomatic_caution_xo_standard",
+          "result": "Cautious monitoring with moderate intel gain.",
+          "effects": {
+            "intel_gain": 10,
+            "moon_relationship": -2,
+            "security_risk": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "derelict_ship",
+      "name": "Derelict Vessel Discovery",
+      "description": "Large derelict vessel adrift in empty space. Life signs undetectable.",
+      "severity": "medium",
+      "duration_days": 2,
+      "trigger_conditions": {
+        "chance_per_day": 0.08
+      },
+      "effects": {
+        "salvage_opportunity": true,
+        "contamination_risk": true,
+        "intel_potential": true
+      },
+      "player_responses": [
+        {
+          "role": "captain",
+          "option": "expedition_dispatched",
+          "description": "Send away team to investigate and salvage.",
+          "effects": {
+            "arrival_timing": -2,
+            "crew_safety": -10,
+            "resource_gain": 30
+          }
+        },
+        {
+          "role": "captain", 
+          "option": "expedition_avoided",
+          "description": "Maintain safe distance and scan from afar.",
+          "effects": {
+            "arrival_timing": 1,
+            "crew_safety": 5,
+            "resource_gain": -20
+          }
+        },
+        {
+          "role": "xo", 
+          "option": "expedition_prepared",
+          "description": "Prepare full safety protocols and medical response.",
+          "effects": {
+            "crew_safety": 15,
+            "system_load": 10,
+            "resource_cost": 20
+          }
+        },
+        {
+          "role": "xo", 
+          "option": "expedition_minimal",
+          "description": "Basic safety measures only.",
+          "effects": {
+            "crew_safety": -15,
+            "system_load": -5,
+            "resource_cost": -10
+          }
+        },
+        {
+          "role": "xo", 
+          "option": "expedition_cautious",
+          "description": "Extended quarantine and decontamination procedures.",
+          "effects": {
+            "crew_safety": 20,
+            "arrival_timing": -3,
+            "resource_cost": 30
+          }
+        }
+      ],
+      "combined_outcomes": [
+        {
+          "condition": "captain_expedition_dispatched_xo_prepared",
+          "result": "Valuable salvage with minimal risk.",
+          "effects": {
+            "resource_gain": 45,
+            "crew_safety": 10,
+            "arrival_timing": -2
+          }
+        },
+        {
+          "condition": "captain_expedition_avoided_xo_cautious", 
+          "result": "Safe distance maintained with some intel gain.",
+          "effects": {
+            "intel_gain": 15,
+            "crew_safety": 10,
+            "arrival_timing": -3
+          }
+        },
+        {
+          "condition": "captain_expedition_dispatched_xo_minimal",
+          "result": "High risk of contamination but potential rewards.",
+          "effects": {
+            "resource_gain": 50,
+            "crew_safety": -25,
+            "arrival_timing": -2
+          }
+        }
+      ]
+    },
+    {
+      "id": "resource_cloud",
+      "name": "Water-Ice Cloud Encounter",
+      "description": "Scanner detects rich water-ice cloud that could be harvested for fuel or life support.",
+      "severity": "low",
+      "duration_days": 3,
+      "trigger_conditions": {
+        "chance_per_day": 0.12
+      },
+      "effects": {
+        "resource_opportunity": true,
+        "harvesting_complexity": true
+      },
+      "player_responses": [
+        {
+          "role": "captain",
+          "option": "expedition_harvest",
+          "description": "Deploy harvesting equipment and collect resources.",
+          "effects": {
+            "arrival_timing": -3,
+            "resource_gain": 50,
+            "system_load": 10
+          }
+        },
+        {
+          "role": "captain", 
+          "option": "expedition_scan_only",
+          "description": "Scan and record data without harvesting.",
+          "effects": {
+            "arrival_timing": 1,
+            "resource_gain": -20,
+            "intel_gain": 15
+          }
+        },
+        {
+          "role": "xo", 
+          "option": "harvesting_optimized",
+          "description": "Maximize harvesting efficiency at system stress.",
+          "effects": {
+            "resource_gain": 60,
+            "system_load": 20,
+            "crew_safety": -5
+          }
+        },
+        {
+          "role": "xo", 
+          "option": "harvesting_cautious",
+          "description": "Conservative harvesting to preserve system integrity.",
+          "effects": {
+            "resource_gain": 40,
+            "system_load": -10,
+            "crew_safety": 5
+          }
+        },
+        {
+          "role": "xo", 
+          "option": "harvesting_minimal",
+          "description": "Basic collection with minimal system impact.",
+          "effects": {
+            "resource_gain": 25,
+            "system_load": -15,
+            "crew_safety": 10
+          }
+        }
+      ],
+      "combined_outcomes": [
+        {
+          "condition": "captain_expedition_harvest_xo_optimized",
+          "result": "Maximum resource collection with moderate system stress.",
+          "effects": {
+            "resource_gain": 65,
+            "arrival_timing": -3,
+            "system_load": 10
+          }
+        },
+        {
+          "condition": "captain_expedition_scan_only_xo_cautious", 
+          "result": "Safe operation with valuable data and modest resources.",
+          "effects": {
+            "intel_gain": 25,
+            "resource_gain": 40,
+            "arrival_timing": -1
+          }
+        },
+        {
+          "condition": "captain_expedition_harvest_xo_minimal",
+          "result": "Conservative harvesting with significant time cost.",
+          "effects": {
+            "resource_gain": 35,
+            "arrival_timing": -4,
+            "system_load": -10
+          }
+        }
+      ]
+    }
+  ]
+}
